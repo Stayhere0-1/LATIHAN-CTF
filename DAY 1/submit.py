@@ -13,6 +13,9 @@ flags = [
     'fe825b8170d642e71c72d8762f9cdd3fa852749aa75f2ca92bb56c03687d7c3c',
     'd132b970e4b9ed21a9980b90c841c7a8b7ac6fdc2e3864a479cfa45af1f517f7',
 ]
+
+flagInput = []
+
 print(flags)
 # Array untuk menyimpan status soal (0 = belum solve, 1 = sudah solve)
 status = [0, 0, 0, 0]
@@ -20,6 +23,17 @@ status = [0, 0, 0, 0]
 def clear_terminal():
     """Fungsi untuk membersihkan terminal."""
     os.system('cls' if os.name == 'nt' else 'clear')
+
+def token(flagInput):
+    """Fungsi untuk menghasilkan token berdasarkan key."""
+    valueOfKey = 0
+    for i in flagInput :
+        if valueOfKey == 0 :
+            valueOfKey = len(i)
+        else :
+            valueOfKey = valueOfKey * len(i)
+    valueOfKey= valueOfKey ** 4
+    return valueOfKey
 
 def display_status():
     """Menampilkan status soal."""
@@ -48,6 +62,7 @@ def check_flag(user_input):
             return f"{Fore.YELLOW}Soal {i+1} sudah disolve. Tolong flag yang lain."
         if user_input_hashed == flag:
             status[i] = 1
+            flagInput.append(user_input)
             return f"{Fore.GREEN}Benar! Soal {i+1} berhasil disolve!"
     return f"{Fore.RED}Salah! Flag tidak cocok dengan soal mana pun."
 
@@ -61,6 +76,8 @@ def main():
         print(f"\n{result}")
         input(f"{Fore.MAGENTA}\nTekan Enter untuk melanjutkan...")
     print(f"{Fore.GREEN}Selamat! Semua soal berhasil disolve!")
-
+    print(f"{Fore.GREEN}Berikut adalah token untuk lanjut ke DAY 2: {Fore.LIGHTYELLOW_EX}{token(flagInput)}")
+    with open("tokend1","w") as file :
+        file.write(str(token(flagInput)))
 if __name__ == "__main__":
     main()
